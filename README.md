@@ -1,17 +1,17 @@
 # create_portfolio
 
-##Idea
+## Idea
 ideaがあればissueに記入しprojectに追加
 
 
 Projectのbordでいいと思うカードを1つ右に動かす
 
-##System
+## System
 ### back end
 django-rest-framworkを想定
 
-###front end
+### front end
 TSを使ってreact を使用
 
-##目標
+## 目標
 とりあえずwebアプリを実装してPythonAnywhereとか使って公開
