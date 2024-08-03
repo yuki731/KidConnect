@@ -10,6 +10,8 @@ Projectのbordでいいと思うカードを1つ右に動かす
 ### back end
 django-rest-framworkを想定
 
+もしくは最近流行ってるGO言語
+
 ### front end
 TSを使ってreact を使用
 
