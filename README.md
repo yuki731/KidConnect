@@ -1,16 +1,11 @@
 # create_portfolio
-
-## Idea
-ideaがあればissueに記入しprojectに追加
-
-
-Projectのbordでいいと思うカードを1つ右に動かす
-
 ## System
 ### back end
-django-rest-framworkを想定
+django-rest-framworkを使用
 
-もしくは最近流行ってるGO言語
+children_bank(https://github.com/yuki731/children_bank)をDRFに移行しapi化
+
+機能を追加
 
 ### front end
 TSを使ってreact を使用
