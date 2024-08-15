@@ -6,7 +6,8 @@ class CustomUser(AbstractUser):
     birthdate = models.DateField(null=True, blank=True)
     address = models.CharField(max_length=255, null=True, blank=True)
     family_name = models.CharField(max_length=100, blank=False)
-    first_name = models.CharField(max_length=100, blank=False)   
+    first_name = models.CharField(max_length=100, blank=False)
+    icon = models.ImageField(upload_to='user_icons/', null=True, blank=True)
 
     def __str__(self):
         return self.username
