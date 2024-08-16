@@ -13,8 +13,6 @@ class UserSignupSerializer(serializers.ModelSerializer):
     username = serializers.CharField(required=True)
     password = serializers.CharField(write_only=True, required=True)
 
-<<<<<<< Updated upstream
-=======
     class Meta:
         model = CustomUser
         fields = ['family_name', 'first_name', 'username', 'password']
@@ -22,7 +20,6 @@ class UserSignupSerializer(serializers.ModelSerializer):
 class CustomUserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
->>>>>>> Stashed changes
     class Meta:
         model = CustomUser
         fields = ['family_name', 'first_name', 'birthdate', 'address', 'icon', 'password']
