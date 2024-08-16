@@ -3,8 +3,25 @@ from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser, PocketMoney, JobCard, JobReport, WithdrawalRequest
 
 class CustomUserAdmin(UserAdmin):
-    fieldsets = UserAdmin.fieldsets + (
-        (None, {'fields': ('birthdate', 'address')}),
+    model = CustomUser
+    # 表示するフィールドを指定します
+    list_display = ('username', 'email', 'first_name', 'last_name', 'family_name', 'icon', 'is_staff', 'is_active')
+    list_filter = ('is_staff', 'is_active')
+    search_fields = ('username', 'email', 'family_name', 'first_name')
+    ordering = ('username',)
+
+    # フォームに表示するフィールドを指定します
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'family_name', 'email', 'icon')}),
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        ('Important dates', {'fields': ('last_login', 'date_joined')}),
+    )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'email', 'first_name', 'last_name', 'family_name', 'password1', 'password2'),
+        }),
     )
 
 admin.site.register(CustomUser, CustomUserAdmin)

@@ -1,10 +1,9 @@
 from rest_framework import status, generics
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import Group
 from django.utils import timezone
@@ -18,31 +17,54 @@ from .serializers import UserSignupSerializer, LoginSerializer, CreateUserSerial
 User = get_user_model()
 
 class UserSignupView(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request, *args, **kwargs):
+        print(f"Request data: {request.data}") 
         serializer = UserSignupSerializer(data=request.data)
         if serializer.is_valid():
-            # サインアップ時に新しいグループを作成し、そのグループにユーザーを追加
+            # ユーザーを作成
             user = serializer.save()
 
-            # グループ作成とユーザー追加の成功メッセージ
+            # 新しいグループを作成（必要に応じて）
+            group, created = Group.objects.get_or_create(name='Parents')  # グループ名を適切に設定
+
+            unique_group_name = f"{user.family_name}_{user.id}"
+            family_group, created = Group.objects.get_or_create(name=unique_group_name)
+
+            # ユーザーをグループに追加
+            user.groups.add(group)
+            user.groups.add(family_group)
+
+            # 成功メッセージを返す
             return Response({"message": "User created and added to group successfully."}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST'])
-def signin(request):
-    serializer = LoginSerializer(data=request.data)
-    if serializer.is_valid():
-        # 認証成功時にトークンを返す
-        user = authenticate(username=serializer.validated_data['username'],
-                            password=serializer.validated_data['password'])
+class SigninView(APIView):
+    permission_classes = [AllowAny]
 
-        token, created = Token.objects.get_or_create(user=user)
-        return Response({'token': token}, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid():
+            username = serializer.validated_data['username']
+            password = serializer.validated_data['password']
+            print(f"Authenticating user: {username}")  # ユーザー名をログに出力
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                token, created = Token.objects.get_or_create(user=user)
+                return Response({'token': token.key}, status=status.HTTP_200_OK)
+            else:
+                print("Authentication failed")  # 認証失敗をログに出力
+                return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+        print(serializer.errors)  # エラーメッセージをログに出力
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 ############# Parents Views ##############
 
 class UserDetailView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
 

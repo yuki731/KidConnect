@@ -10,7 +10,19 @@ User = get_user_model()
 class UserSignupSerializer(serializers.ModelSerializer):
     family_name = serializers.CharField(required=True)
     first_name = serializers.CharField(required=True)
+    username = serializers.CharField(required=True)
     password = serializers.CharField(write_only=True, required=True)
+
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'password', 'family_name', 'first_name')
+
+    def create(self, validated_data):
+        password = validated_data.pop('password')
+        user = CustomUser.objects.create(**validated_data)
+        user.set_password(password)
+        user.save()
+        return user
 
 class CustomUserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -52,18 +64,25 @@ class CustomUserSerializer(serializers.ModelSerializer):
     
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
-    password = serializers.CharField()
+    password = serializers.CharField(write_only=True)
 
     def validate(self, data):
         user = authenticate(username=data['username'], password=data['password'])
         if user is None:
-            raise serializers.ValidationError('Invalid credentials')
+            raise serializers.ValidationError({'detail': 'Invalid credentials'})
         return data
 
+
 class UserSerializer(serializers.ModelSerializer):
+    groups = serializers.SerializerMethodField()
+
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'birthdate', 'address', 'family_name')
+        fields = ['id', 'username', 'email', 'birthdate', 'address', 'family_name', 'first_name', 'groups']
+
+    def get_groups(self, obj):
+        # ユーザーが所属するグループ名のリストを返す
+        return [group.name for group in obj.groups.all()]
 
 class CreateUserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
