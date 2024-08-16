@@ -10,8 +10,19 @@ User = get_user_model()
 class UserSignupSerializer(serializers.ModelSerializer):
     family_name = serializers.CharField(required=True)
     first_name = serializers.CharField(required=True)
+    username = serializers.CharField(required=True)
     password = serializers.CharField(write_only=True, required=True)
 
+<<<<<<< Updated upstream
+=======
+    class Meta:
+        model = CustomUser
+        fields = ['family_name', 'first_name', 'username', 'password']
+
+class CustomUserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
+>>>>>>> Stashed changes
     class Meta:
         model = User
         fields = ('username', 'password', 'birthdate', 'address', 'family_name', 'first_name')
