@@ -3,7 +3,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
 
-from .models import PocketMoney, JobCard, JobReport, WithdrawalRequest
+from .models import CustomUser, PocketMoney, JobCard, JobReport, WithdrawalRequest
 
 User = get_user_model()
 
@@ -24,35 +24,40 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 >>>>>>> Stashed changes
     class Meta:
-        model = User
-        fields = ('username', 'password', 'birthdate', 'address', 'family_name', 'first_name')
+        model = CustomUser
+        fields = ['family_name', 'first_name', 'birthdate', 'address', 'icon', 'password']
 
     def create(self, validated_data):
         family_name = validated_data.pop('family_name')
         first_name = validated_data.pop('first_name')
         password = validated_data.pop('password')
-        
+        icon = validated_data.pop('icon', None)  # アイコンが提供されているか確認
+
         # ユーザーを作成
-        user = User(
-            **validated_data,
+        user = CustomUser(
             family_name=family_name,
-            first_name=first_name
+            first_name=first_name,
+            **validated_data
         )
         user.set_password(password)
+        
+        if icon:  # アイコンが提供されていれば設定
+            user.icon = icon
+            
         user.save()
 
         # グループ名を生成してグループを作成
         group_name = f"{family_name}_{user.id}"
         group, created = Group.objects.get_or_create(name=group_name)
         group_parents, _ = Group.objects.get_or_create(name='Parents')
-        
+
         # ユーザーをグループに追加
         user.groups.add(group)
         user.groups.add(group_parents)
         user.save()
 
         return user
-
+    
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()

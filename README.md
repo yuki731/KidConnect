@@ -3,7 +3,7 @@
 ### back end
 django-rest-framworkを使用
 
-cchildren_bank`プロジェクト（[children_bank GitHubリポジトリ](https://github.com/yuki731/children_bank)）をDjango Rest Framework（DRF）に移行
+children_bank`プロジェクト（[children_bank GitHubリポジトリ](https://github.com/yuki731/children_bank)）をDjango Rest Framework（DRF）に移行
 
 機能を追加
 
