@@ -13,7 +13,7 @@ const LoginPage: React.FC = () => {
         try {
             const token = await LoginUser({ username, password });
             localStorage.setItem('token', token); // トークンをローカルストレージに保存
-            navigate('/dashboard'); // ログイン後のリダイレクト先
+            navigate('/permission_check'); // ログイン後のリダイレクト先
         } catch (err) {
             setError('ログインに失敗しました。ユーザー名またはパスワードを確認してください。');
         }
