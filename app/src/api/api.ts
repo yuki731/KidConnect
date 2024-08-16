@@ -12,3 +12,16 @@ export const signupUser = async (data: { family_name: string; first_name: string
         }
     }
 };
+
+export const LoginUser = async (data: { username: string; password: string }) => {
+    try {
+        const response = await axios.post('/api/login/', data);
+        return response.data; // tokenを返す
+    } catch (error: unknown) {
+        if (axios.isAxiosError(error)) {
+            throw error.response?.data || "Error during login";
+        } else {
+            throw new Error("Unexpected error occurred");
+        }
+    }
+};
