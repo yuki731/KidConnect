@@ -1,4 +1,11 @@
 # create_portfolio
+## 初めに
+requirements.txtとReactとapp/module_list.txt書かれたmoduleをインストール
+
+## サーバーの立ち上げ方
+api/に移動し、`python manage.py runserver`でバックエンド（apiリクエストを受け取りデータを送信するための）サーバーを起動
+
+app/に移動し、`npm start`でフロントエンド(React)サーバーを起動
 ## System
 ### back end
 django-rest-framworkを使用
