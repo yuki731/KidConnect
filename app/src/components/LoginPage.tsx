@@ -44,6 +44,7 @@ const LoginPage: React.FC = () => {
                 {error && <p>{error}</p>}
                 <button type="submit">ログイン</button>
             </form>
+            <a href='/signup'>アカウントを作成</a>
         </div>
     );
 };

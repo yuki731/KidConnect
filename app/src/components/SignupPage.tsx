@@ -80,6 +80,7 @@ const SignupPage: React.FC = () => {
             </form>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             {success && <p style={{ color: 'green' }}>{success}</p>}
+            <a href='/login'>アカウントをお持ちの場合</a>
         </div>
     );
 };

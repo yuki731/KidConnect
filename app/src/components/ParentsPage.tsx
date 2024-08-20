@@ -32,7 +32,7 @@ const ParentsPage: React.FC = () => {
             <h1>Welcome, {user.username}!</h1>
             <p>Family Name: {user.family_name}</p>
             <p>First Name: {user.first_name}</p>
-            {/* その他のユーザー情報を表示 */}
+            <a href='/create-user'>ほかの家族アカウントを作成</a>
         </div>
     );
 };
