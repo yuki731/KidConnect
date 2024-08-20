@@ -1,6 +1,6 @@
 from django.urls import path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from .views import UserSignupView, SigninView, UserDetailView, ChildrenInFamilyView, ChildPocketMoneyView, CreateJobCardView, ApprovalJobRequestView, ApprovalWithdrawalRequestView, ChildDashboardView, TaskView, ReportJobView, CreateWithdrawalRequestView
+from .views import UserSignupView, SigninView, UserDetailView, CreateUserAccountView, ChildrenInFamilyView, ChildPocketMoneyView, CreateJobCardView, ApprovalJobRequestView, ApprovalWithdrawalRequestView, ChildDashboardView, TaskView, ReportJobView, CreateWithdrawalRequestView
 
 urlpatterns = [
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -8,6 +8,7 @@ urlpatterns = [
     path('signup/', UserSignupView.as_view(), name='signup'),
     path('signin/', SigninView.as_view(), name='signin'),
     path('user/', UserDetailView.as_view(), name='user-detail'),
+    path('create-user/', CreateUserAccountView.as_view(), name='create-user'),
     path('family/children/', ChildrenInFamilyView.as_view(), name='children_in_family'),
     path('child/<int:child_id>/pocket-money/', ChildPocketMoneyView.as_view(), name='child_pocket_money'),
     path('child/<int:child_id>/pocket-money/<int:job_card_id>/', ChildPocketMoneyView.as_view(), name='child_pocket_money_delete'),

@@ -47,3 +47,12 @@ export const getUserDetails = async (token: string) => {
         throw error;
     }
 };
+
+export const createUserAccount = async (token: string, userData: any) => {
+    const response = await axios.post('http://127.0.0.1:8000/api/create-user/', userData, {
+        headers: {
+            Authorization: `Token ${token}`,
+        },
+    });
+    return response.data;
+};

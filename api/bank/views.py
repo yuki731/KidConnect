@@ -92,7 +92,7 @@ class CreateUserAccountView(APIView):
             group_name = None
             groups = parent_user.groups.all()
             for group in groups:
-                if group.name.startswith(user.family_name):
+                if group.name.startswith(family_name):
                     group_name = group.name
                     break
 
