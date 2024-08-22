@@ -56,3 +56,21 @@ export const createUserAccount = async (token: string, userData: any) => {
     });
     return response.data;
 };
+
+export interface PocketMoneyResponse {
+    total_amount: number;
+}
+
+export const getPocketMoney = async (token: string): Promise<PocketMoneyResponse> => {
+    const response = await fetch('http://127.0.0.1:8000/api/child-dashboard/', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        }
+    });
+    if (!response.ok) {
+        throw new Error('Failed to fetch pocket money data');
+    }
+    return response.json();
+};
