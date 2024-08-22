@@ -44,6 +44,7 @@ const ChildrenPage: React.FC = () => {
             <p>おこづかい : {pocketMoney !== null ? pocketMoney : 'Loading...'}</p>
             <p>Family Name: {user.family_name}</p>
             <p>First Name: {user.first_name}</p>
+            <a href='/logout'>ログアウト</a>
         </div>
     );
 };
