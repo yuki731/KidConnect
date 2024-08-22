@@ -5,6 +5,7 @@ import LoginPage from './components/LoginPage';
 import ParentsPage from './components/ParentsPage';
 import PermissionCheck from './components/PermissionCheck';
 import CreateUserAccount from './components/CreateUser';
+import ChildrenPage from './components/ChildrenPage';
 
 const App: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ const App: React.FC = () => {
               <Route path="/parents_dashboard" element={<ParentsPage />} />
               <Route path="/permission_check" element={<PermissionCheck />} />
               <Route path="/create-user" element={<CreateUserAccount />} />
+              <Route path="/children_dashboard" element={<ChildrenPage />} />
           </Routes>
       </Router>
   );
