@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import SignupPage from './components/SignupPage';
 import LoginPage from './components/LoginPage';
+import LogoutPage from './components/Logout';
 import ParentsPage from './components/ParentsPage';
 import PermissionCheck from './components/PermissionCheck';
 import CreateUserAccount from './components/CreateUser';
@@ -17,6 +18,7 @@ const App: React.FC = () => {
               <Route path="/permission_check" element={<PermissionCheck />} />
               <Route path="/create-user" element={<CreateUserAccount />} />
               <Route path="/children_dashboard" element={<ChildrenPage />} />
+              <Route path="/logout" element={<LogoutPage />} />
           </Routes>
       </Router>
   );
