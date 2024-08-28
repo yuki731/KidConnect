@@ -109,9 +109,14 @@ class PocketMoneySerializer(serializers.ModelSerializer):
         fields = ('id', 'child', 'group', 'amount', 'aproved_by', 'date', 'transaction_type', 'memo')
 
 class JobCardSerializer(serializers.ModelSerializer):
+    child = serializers.PrimaryKeyRelatedField(
+        queryset=CustomUser.objects.filter(groups__name='Children'),  # groups フィールドでフィルタリング
+        many=True
+    )
+
     class Meta:
         model = JobCard
-        fields = ('id', 'child', 'group', 'job_name', 'money', 'job_image')
+        fields = ['id', 'child', 'group', 'job_name', 'money', 'job_image']
 
 class JobReportSerializer(serializers.ModelSerializer):
     class Meta:

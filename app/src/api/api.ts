@@ -74,3 +74,47 @@ export const getPocketMoney = async (token: string): Promise<PocketMoneyResponse
     }
     return response.json();
 };
+
+export const createJobCard = async (token: string, formData: FormData) => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/create-job-card/', {  // 正しいエンドポイント
+        method: 'POST',
+        headers: {
+          'Authorization': `Token ${token}`,
+        },
+        body: formData,
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      return await response.json();
+    } catch (error) {
+      console.error('Error creating job card:', error);  // エラーの詳細を出力
+      throw error;  // 呼び出し元にエラーを渡す
+    }
+  };
+  
+
+  export const fetchChildren = async (token: string) => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/family/children/', {  // エンドポイントを確認
+        method: 'GET',
+        headers: {
+          'Authorization': `Token ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching children:', error);  // エラーの詳細を出力
+      throw error;  // 呼び出し元にエラーを渡す
+    }
+  };
+  
