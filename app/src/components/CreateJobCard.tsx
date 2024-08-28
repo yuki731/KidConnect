@@ -11,7 +11,7 @@ const CreateJobCardPage: React.FC = () => {
   const [children, setChildren] = useState<Child[]>([]);  // 子どものリストを保存する状態
   const [selectedChildren, setSelectedChildren] = useState<number[]>([]);  // 選択された子どものIDを保存する状態
   const [jobName, setJobName] = useState<string>('');  // お手伝いの名前
-  const [money, setMoney] = useState<number>(0);  // お手伝いの報酬
+  const [money, setMoney] = useState<string>('');  // お手伝いの報酬
   const [jobImage, setJobImage] = useState<File | null>(null);  // お手伝いの画像
   const AuthToken = localStorage.getItem('token') || '';
   const [token, setToken] = useState<string>(AuthToken);  // 認証トークン
@@ -73,7 +73,11 @@ const CreateJobCardPage: React.FC = () => {
         </div>
         <div>
           <label>報酬:</label>
-          <input type="number" value={money} onChange={(e) => setMoney(Number(e.target.value))} required />
+          <input
+            type="number"
+            value={money}
+            onChange={(e) => setMoney(e.target.value)}
+          />
         </div>
         <div>
           <label>お手伝いの画像:</label>
