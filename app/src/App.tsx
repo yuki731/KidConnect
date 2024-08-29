@@ -8,6 +8,7 @@ import PermissionCheck from './components/PermissionCheck';
 import CreateUserAccount from './components/CreateUser';
 import ChildrenPage from './components/ChildrenPage';
 import CreateJobCardForm from './components/CreateJobCard'
+import ReportJobPage from './components/RequestJob'
 
 const App: React.FC = () => {
   return (
@@ -15,12 +16,14 @@ const App: React.FC = () => {
           <Routes>
               <Route path="/signup" element={<SignupPage />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/logout" element={<LogoutPage />} />
               <Route path="/parents_dashboard" element={<ParentsPage />} />
               <Route path="/permission_check" element={<PermissionCheck />} />
               <Route path="/create-user" element={<CreateUserAccount />} />
               <Route path="/create-job-card" element={<CreateJobCardForm />} />
               <Route path="/children_dashboard" element={<ChildrenPage />} />
-              <Route path="/logout" element={<LogoutPage />} />
+              <Route path="/children_dashboard" element={<ChildrenPage />} />
+              <Route path="/report-job" element={<ReportJobPage />} />
 
           </Routes>
       </Router>

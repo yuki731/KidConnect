@@ -12,7 +12,7 @@ from django.db.models import Sum, Case, When, F, DecimalField, IntegerField
 
 
 from .models import PocketMoney, JobCard, JobReport, WithdrawalRequest
-from .serializers import UserSignupSerializer, LoginSerializer, CreateUserSerializer, UserSerializer, PocketMoneySerializer, JobCardSerializer, JobReportSerializer, WithdrawalRequestSerializer
+from .serializers import UserSignupSerializer, LoginSerializer, CreateUserSerializer, UserSerializer, PocketMoneySerializer, JobCardSerializer, JobListSerializer, JobReportSerializer, WithdrawalRequestSerializer
 
 User = get_user_model()
 
@@ -298,7 +298,7 @@ class TaskView(APIView):
     def get(self, request, *args, **kwargs):
         child = request.user
         job_cards = JobCard.objects.filter(child=child)
-        serializer = JobCardSerializer(job_cards, many=True)
+        serializer = JobListSerializer(job_cards, many=True)
         return Response({'job_cards': serializer.data})
 
 class ReportJobView(APIView):

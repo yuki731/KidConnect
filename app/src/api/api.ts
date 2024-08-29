@@ -118,3 +118,35 @@ export const createJobCard = async (token: string, formData: FormData) => {
     }
   };
   
+  export const taskList = async (token: string) => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/task-view/', {  // エンドポイントを確認
+        method: 'GET',
+        headers: {
+          'Authorization': `Token ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching children:', error);  // エラーの詳細を出力
+      throw error;  // 呼び出し元にエラーを渡す
+    }
+  };
+
+  export const reportJob = async (token: string, jobID: number) => {
+    const response = await axios.post(
+        `http://127.0.0.1:8000/api/report-job/${jobID}/`, 
+        {},
+        {
+            headers: {
+                Authorization: `Token ${token}`,
+        },
+    });
+    return response.data;
+};
