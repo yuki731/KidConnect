@@ -202,7 +202,7 @@ class CreateJobCardView(generics.CreateAPIView):
         
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
-            children = serializer.validated_data.get('children')
+            children = serializer.validated_data.get('child')
             job_name = serializer.validated_data.get('job_name')
             money = serializer.validated_data.get('money')
             job_image = serializer.validated_data.get('job_image')
