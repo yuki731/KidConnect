@@ -34,7 +34,7 @@ class PocketMoney(models.Model):
         return f"{self.child.username} - {self.group} - {self.get_transaction_type_display()} of {self.amount} on {self.date}"
     
 class JobCard(models.Model):
-    child = models.ForeignKey(User, on_delete=models.CASCADE, related_name='job_card')
+    child = models.ForeignKey(User, on_delete=models.CASCADE)
     group = models.CharField(max_length=100, blank=True, null=True)
     job_name = models.CharField(max_length=100, blank=False, null=False)
     money = models.DecimalField(max_digits=10, decimal_places=0)

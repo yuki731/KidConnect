@@ -118,6 +118,14 @@ class JobCardSerializer(serializers.ModelSerializer):
         model = JobCard
         fields = ['id', 'child', 'group', 'job_name', 'money', 'job_image']
 
+class JobListSerializer(serializers.ModelSerializer):
+    child = serializers.StringRelatedField()  # または他の適切なフィールドタイプ
+
+    class Meta:
+        model = JobCard
+        fields = ['id', 'child', 'group', 'job_name', 'money', 'job_image']
+
+
 class JobReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobReport
