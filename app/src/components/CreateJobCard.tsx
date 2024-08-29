@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import { createJobCard, fetchChildren } from '../api/api';  // API関数をインポート
 
 interface Child {
@@ -7,12 +7,20 @@ interface Child {
   first_name: string;
 }
 
+const sampleImages = [
+  { id: 1, src: '/images/sample1.png', alt: 'Sample Image 1' },
+  { id: 2, src: '/images/sample2.png', alt: 'Sample Image 2' },
+  { id: 3, src: '/images/sample3.png', alt: 'Sample Image 3' },
+  { id: 4, src: '/images/sample4.png', alt: 'Sample Image 4' },
+]; 
+
 const CreateJobCardPage: React.FC = () => {
   const [children, setChildren] = useState<Child[]>([]);  // 子どものリストを保存する状態
   const [selectedChildren, setSelectedChildren] = useState<number[]>([]);  // 選択された子どものIDを保存する状態
   const [jobName, setJobName] = useState<string>('');  // お手伝いの名前
   const [money, setMoney] = useState<string>('');  // お手伝いの報酬
   const [jobImage, setJobImage] = useState<File | null>(null);  // お手伝いの画像
+  const [selectedSampleImageId, setSelectedSampleImageId] = useState<number | null>(null);  // 選択されたサンプル画像のID
   const AuthToken = localStorage.getItem('token') || '';
   const [token, setToken] = useState<string>(AuthToken);  // 認証トークン
   const navigate = useNavigate();
@@ -37,6 +45,24 @@ const CreateJobCardPage: React.FC = () => {
     );
   };
 
+  const handleSampleImageSelect = async (imageSrc: string, imageId: number) => {
+    try {
+      const response = await fetch(imageSrc);
+      const blob = await response.blob();
+      const file = new File([blob], "sampleImage.png", { type: blob.type });
+
+      setJobImage(file);  // サンプル画像をファイルとして設定
+      setSelectedSampleImageId(imageId);  // 選択された画像のIDを設定
+    } catch (error) {
+      console.error('Error fetching the sample image:', error);
+    }
+  };
+
+  const handleCustomImageSelect = (file: File | null) => {
+    setJobImage(file);  // カスタム画像を選択
+    setSelectedSampleImageId(null);  // サンプル画像の選択をクリア
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -49,7 +75,9 @@ const CreateJobCardPage: React.FC = () => {
     const formData = new FormData();
     formData.append('job_name', jobName);
     formData.append('money', money.toString());
-    formData.append('job_image', jobImage as Blob);  // 画像を追加
+    if (jobImage) {
+      formData.append('job_image', jobImage);  // 画像を追加
+    }
     selectedChildren.forEach(childId => formData.append('child', childId.toString()));  // 子どものIDを追加
 
     try {
@@ -80,8 +108,25 @@ const CreateJobCardPage: React.FC = () => {
           />
         </div>
         <div>
-          <label>お手伝いの画像:</label>
-          <input type="file" onChange={(e) => setJobImage(e.target.files ? e.target.files[0] : null)} />
+          <label>お手伝いの画像を選択するかアップロードしてください:</label>
+          <div>
+            {sampleImages.map((image) => (
+              <div key={image.id} style={{ display: 'inline-block', margin: '10px' }}>
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  width="100"
+                  height="100"
+                  onClick={() => handleSampleImageSelect(image.src, image.id)}
+                  style={{ cursor: 'pointer', border: selectedSampleImageId === image.id ? '2px solid red' : '2px solid transparent' }}
+                />
+              </div>
+            ))}
+          </div>
+          <input
+            type="file"
+            onChange={(e) => handleCustomImageSelect(e.target.files ? e.target.files[0] : null)}
+          />
         </div>
         <div>
           <h3>子どもを選択してください:</h3>
