@@ -20,7 +20,7 @@ const RequestWithdrawalPage: React.FC = () => {
       const response = await RequestWithdrawal(token, formData);
       console.log('Aplication successful:', response);
       alert('出金申請に成功しました！');
-      navigate('/parents_dashboard');
+      navigate('/children_dashboard');
     } catch (error) {
       console.error('Error request:', error);
       alert('出金申請にに失敗しました。');
