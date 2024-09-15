@@ -135,3 +135,4 @@ class WithdrawalRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = WithdrawalRequest
         fields = ('id', 'title', 'money', 'group', 'reported_by', 'reported_at', 'status')
+        read_only_fields = ('group', 'reported_by', 'reported_at', 'status')

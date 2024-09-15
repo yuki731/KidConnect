@@ -45,6 +45,7 @@ const ChildrenPage: React.FC = () => {
             <p>Family Name: {user.family_name}</p>
             <p>First Name: {user.first_name}</p>
             <p><a href='/report-job'>仕事の報告</a></p>
+            <p><a href='/request-withdrawal'>おこづかいの引き出し</a></p>
             <p><a href='/logout'>ログアウト</a></p>
         </div>
     );
