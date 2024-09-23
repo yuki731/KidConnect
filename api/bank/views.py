@@ -158,6 +158,9 @@ class ChildPocketMoneyView(generics.RetrieveAPIView):
         return User.objects.get(id=child_id)
 
     def retrieve(self, request, *args, **kwargs):
+        if not request.user.groups.filter(name='Parents').exists():
+            return Response({"detail": "You do not have permission to create user accounts."}, status=status.HTTP_403_FORBIDDEN)
+        
         child = self.get_object()
         pocket_money_records = PocketMoney.objects.filter(child=child)
         total_amount = pocket_money_records.aggregate(

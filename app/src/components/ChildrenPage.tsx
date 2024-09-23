@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { getUserDetails, getPocketMoney } from '../api/api';
 
 interface User {
@@ -44,9 +45,9 @@ const ChildrenPage: React.FC = () => {
             <p>おこづかい : {pocketMoney !== null ? pocketMoney : 'Loading...'}</p>
             <p>Family Name: {user.family_name}</p>
             <p>First Name: {user.first_name}</p>
-            <p><a href='/report-job'>仕事の報告</a></p>
-            <p><a href='/request-withdrawal'>おこづかいの引き出し</a></p>
-            <p><a href='/logout'>ログアウト</a></p>
+            <p><Link to={'/report-job'}>仕事の報告</Link></p>
+            <p><Link to={'/request-withdrawal'}>おこづかいの引き出し</Link></p>
+            <p><Link to={'/logout'}>ログアウト</Link></p>
         </div>
     );
 };

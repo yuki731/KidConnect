@@ -1,8 +1,10 @@
 import axios from 'axios';
 
+const API_BASE_URL = 'http://localhost:8000/api';
+
 export const signupUser = async (data: { family_name: string; first_name: string; username: string; password: string; }) => {
     try {
-        const response = await axios.post('http://127.0.0.1:8000/api/signup/', data);
+        const response = await axios.post(`${API_BASE_URL}/signup/`, data);
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
@@ -15,7 +17,7 @@ export const signupUser = async (data: { family_name: string; first_name: string
 
 export const LoginUser = async (data: { username: string; password: string }) => {
     try {
-        const response = await axios.post('http://127.0.0.1:8000/api/signin/', data);
+        const response = await axios.post(`${API_BASE_URL}/signin/`, data);
         return response.data.token; // tokenを返す
     } catch (error: unknown) {
         if (axios.isAxiosError(error)) {
@@ -29,7 +31,7 @@ export const LoginUser = async (data: { username: string; password: string }) =>
 export const getUserDetails = async (token: string) => {
     try {
         console.log('Sending request with token:', token);
-        const response = await axios.get('http://127.0.0.1:8000/api/user/', {
+        const response = await axios.get(`${API_BASE_URL}/user/`, {
             headers: {
                 Authorization: `Token ${token}`,
             },
@@ -49,7 +51,7 @@ export const getUserDetails = async (token: string) => {
 };
 
 export const createUserAccount = async (token: string, userData: any) => {
-    const response = await axios.post('http://127.0.0.1:8000/api/create-user/', userData, {
+    const response = await axios.post(`${API_BASE_URL}create-user/`, userData, {
         headers: {
             Authorization: `Token ${token}`,
         },
@@ -62,7 +64,7 @@ export interface PocketMoneyResponse {
 }
 
 export const getPocketMoney = async (token: string): Promise<PocketMoneyResponse> => {
-    const response = await fetch('http://127.0.0.1:8000/api/child-dashboard/', {
+    const response = await fetch(`${API_BASE_URL}/child-dashboard/`, {
         method: 'GET',
         headers: {
             'Authorization': `Token ${token}`,
@@ -77,7 +79,7 @@ export const getPocketMoney = async (token: string): Promise<PocketMoneyResponse
 
 export const createJobCard = async (token: string, formData: FormData) => {
   try {
-    const response = await fetch('http://127.0.0.1:8000/api/create-job-card/', {  // 正しいエンドポイント
+    const response = await fetch(`${API_BASE_URL}/create-job-card/`, {  // 正しいエンドポイント
       method: 'POST',
       headers: {
         'Authorization': `Token ${token}`,
@@ -99,7 +101,7 @@ export const createJobCard = async (token: string, formData: FormData) => {
 
 export const fetchChildren = async (token: string) => {
   try {
-    const response = await fetch('http://127.0.0.1:8000/api/family/children/', {  // エンドポイントを確認
+    const response = await fetch(`${API_BASE_URL}/family/children/`, {  // エンドポイントを確認
       method: 'GET',
       headers: {
         'Authorization': `Token ${token}`,
@@ -120,7 +122,7 @@ export const fetchChildren = async (token: string) => {
 
 export const taskList = async (token: string) => {
   try {
-    const response = await fetch('http://127.0.0.1:8000/api/task-view/', {  // エンドポイントを確認
+    const response = await fetch(`${API_BASE_URL}/api/task-view/`, {  // エンドポイントを確認
       method: 'GET',
       headers: {
         'Authorization': `Token ${token}`,
@@ -141,7 +143,7 @@ export const taskList = async (token: string) => {
 
 export const reportJob = async (token: string, jobID: number) => {
   const response = await axios.post(
-      `http://127.0.0.1:8000/api/report-job/${jobID}/`, 
+      `${API_BASE_URL}/report-job/${jobID}/`, 
       {},
       {
           headers: {
@@ -153,7 +155,7 @@ export const reportJob = async (token: string, jobID: number) => {
 
 export const RequestWithdrawal = async (token: string, formData: FormData) => {
   try {
-    const response = await fetch('http://127.0.0.1:8000/api/create-withdrawal-request/', {
+    const response = await fetch(`${API_BASE_URL}/create-withdrawal-request/`, {
       method: 'POST',
       headers: {
         'Authorization': `Token ${token}`,
@@ -169,5 +171,19 @@ export const RequestWithdrawal = async (token: string, formData: FormData) => {
   } catch (error) {
     console.error('Error creating withdrawal:', error);  // エラーの詳細を出力
     throw error;  // 呼び出し元にエラーを渡す
+  }
+};
+
+export const fetchChildrenInFamily = async (token: string) => {
+  try {
+      const response = await axios.get(`${API_BASE_URL}/family/children/`, {
+          headers: {
+              'Authorization': `Token ${token}`  // 認証トークンをヘッダーに追加
+          }
+      });
+      return response.data;  // 子供の情報を返す
+  } catch (error) {
+      console.error('Error fetching children in family:', error);
+      throw error;
   }
 };

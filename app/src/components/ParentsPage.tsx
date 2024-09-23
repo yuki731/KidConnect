@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { getUserDetails } from '../api/api';
 
 interface User {
@@ -33,9 +34,10 @@ const ParentsPage: React.FC = () => {
             
             <p>Family Name: {user.family_name}</p>
             <p>First Name: {user.first_name}</p>
-            <p><a href='/create-user'>ほかの家族アカウントを作成</a></p>
-            <p><a href='/create-job-card'>お手伝いを作成</a></p>
-            <p><a href='/logout'>ログアウト</a></p>
+            <p><Link to={'/children_list'}>子供のアカウントを管理</Link></p>
+            <p><Link to={'/create-user'}>ほかの家族アカウントを作成</Link></p>
+            <p><Link to={'/create-job-card'}>お手伝いを作成</Link></p>
+            <p><Link to={'/logout'}>ログアウト</Link></p>
         </div>
     );
 };
