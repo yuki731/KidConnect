@@ -12,7 +12,7 @@ from django.db.models import Sum, Case, When, F, DecimalField, IntegerField
 
 
 from .models import PocketMoney, JobCard, JobReport, WithdrawalRequest
-from .serializers import UserSignupSerializer, LoginSerializer, CreateUserSerializer, UserSerializer, PocketMoneySerializer, JobCardSerializer, JobListSerializer, JobReportSerializer, WithdrawalRequestSerializer
+from .serializers import UserSignupSerializer, LoginSerializer, CreateUserSerializer, UserSerializer, PocketMoneySerializer, JobCardListSerializer, JobCardSerializer, JobListSerializer, JobReportSerializer, WithdrawalRequestSerializer
 
 User = get_user_model()
 
@@ -186,17 +186,31 @@ class ChildPocketMoneyView(generics.RetrieveAPIView):
             'withdrawal_requests': WithdrawalRequestSerializer(withdrawal_requests, many=True).data,
         })
     
+class DeleteJobCardView(generics.DestroyAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        # リクエストから子供のIDを取得
+        child_id = self.kwargs.get('child_id')
+        return get_object_or_404(User, id=child_id)
+
     def delete(self, request, *args, **kwargs):
+        if not request.user.groups.filter(name='Parents').exists():
+            return Response({"detail": "You do not have permission to create user accounts."}, status=status.HTTP_403_FORBIDDEN)
+        
         child = self.get_object()
         job_card_id = self.kwargs.get('job_card_id')
         
+        # 子供に関連するジョブカードを取得
         job_card = get_object_or_404(JobCard, id=job_card_id, child=child)
+        
+        # ジョブカードを削除
         job_card.delete()
-    
+
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class CreateJobCardView(generics.CreateAPIView):
-    serializer_class = JobCardSerializer
+    serializer_class = JobCardListSerializer
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):

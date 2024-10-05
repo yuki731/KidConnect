@@ -122,7 +122,7 @@ export const fetchChildren = async (token: string) => {
 
 export const taskList = async (token: string) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/task-view/`, {  // エンドポイントを確認
+    const response = await fetch(`${API_BASE_URL}/task-view/`, {  // エンドポイントを確認
       method: 'GET',
       headers: {
         'Authorization': `Token ${token}`,
@@ -185,5 +185,19 @@ export const fetchChildrenInFamily = async (token: string) => {
   } catch (error) {
       console.error('Error fetching children in family:', error);
       throw error;
+  }
+};
+
+export const fetchChildPocketMoney = async (childId: number, token: string) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/child/${childId}/pocket-money/`, {
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching child's pocket money:", error);
+    throw error; // エラーを上位に投げる
   }
 };

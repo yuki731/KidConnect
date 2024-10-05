@@ -10,7 +10,8 @@ import ChildrenPage from './components/ChildrenPage';
 import CreateJobCardForm from './components/CreateJobCard'
 import ReportJobPage from './components/RequestJob'
 import RequestWithdrawalPage from './components/RequestWithdrawal'
-import ChildrenList from './components/ChildrenView'
+import ChildrenList from './components/ChildrenList'
+import ChildPocketMoneyComponent from './components/ChildrenDetail'
 
 const App: React.FC = () => {
   return (
@@ -28,6 +29,7 @@ const App: React.FC = () => {
               <Route path="/report-job" element={<ReportJobPage />} />
               <Route path="/request-withdrawal" element={<RequestWithdrawalPage />} />
               <Route path="/children_list" element={<ChildrenList />} />
+              <Route path="/children_detail/:child_id" element={<ChildPocketMoneyComponent />} />
 
           </Routes>
       </Router>
